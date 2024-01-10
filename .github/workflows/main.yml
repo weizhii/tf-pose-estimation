@@ -101,3 +101,28 @@ jobs:
             cd .\tf_pose\pafprocess\
             dir
             "C:\swigwin-4.2.0\swig.exe" -python -c++ pafprocess.i && python setup.py build_ext --inplace
+            dir
+            ren *.pyd compile.pyd
+    # 发布编译的pyd
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        body: TODO New Release.
+        draft: false
+        prerelease: false
+    
+    - name: Upload Release Asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.compile.outputs.upload_url }}
+        asset_path: .\tf_pose\pafprocess\compile.pyd
+        asset_name: compile.pyd
+        #asset_content_type: application/zip
+    
