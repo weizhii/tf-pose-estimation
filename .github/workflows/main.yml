@@ -63,7 +63,7 @@ jobs:
     steps:
 
     - name: test workdir
-      working-directory: ./tf_pose/pafprocess
+      working-directory: tf_pose/pafprocess
       shell: cmd
       run: dir
     
