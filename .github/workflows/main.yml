@@ -95,4 +95,5 @@ jobs:
       shell: cmd
       run: |
             cd .\tf_pose\pafprocess\
+            dir
             "C:\swigwin-4.2.0\swig.exe" -python -c++ pafprocess.i && python setup.py build_ext --inplace
