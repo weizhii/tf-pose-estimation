@@ -89,4 +89,4 @@ jobs:
       shell: powershell
       run: |
             cd .\tf_pose\pafprocess\
-            "C:\swigwin-4.2.0\swig.exe" python -python -c++ pafprocess.i && python setup.py build_ext --inplace
+            "C:\swigwin-4.2.0\swig.exe" -python -c++ pafprocess.i && python setup.py build_ext --inplace
