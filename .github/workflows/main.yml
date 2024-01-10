@@ -110,8 +110,8 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: test
-        release_name: Release 1
+        # tag_name: test
+        release_name: Release 2
         body: TODO New Release.
         draft: false
         prerelease: false
