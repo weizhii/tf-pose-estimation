@@ -73,6 +73,10 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: 3.7
+        
+    - name: install numpy
+      run: |
+         pip install numpy
 
     - name: get Python path
       shell: powershell
