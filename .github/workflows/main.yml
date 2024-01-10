@@ -86,7 +86,7 @@ jobs:
           Expand-Archive -Path "swigwin-4.2.0.zip" -DestinationPath "C:\" -Force
 
     - name: compile 
-      shell: powershell
+      shell: cmd
       run: |
             cd .\tf_pose\pafprocess\
             "C:\swigwin-4.2.0\swig.exe" -python -c++ pafprocess.i && python setup.py build_ext --inplace
