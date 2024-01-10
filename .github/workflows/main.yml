@@ -59,7 +59,7 @@ jobs:
     - name: test workdir
      # working-directory: . #tf_pose\pafprocess
       shell: cmd
-      run: dir
+      run: cd
     
     - name: Setup Python
       uses: actions/setup-python@v2
