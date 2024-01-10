@@ -1,0 +1,92 @@
+name: Windows
+on:
+  # push:
+  workflow_dispatch:
+    paths:
+      - "**"
+      - "!.github/**"
+      - ".github/workflows/Windows.yml"
+      - "!scripts"
+      - "scripts/install_cuda_cudnn_windows.ps1"
+      ## - "!*.md"
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      # explicit include-based build matrix, of known valid options
+      matrix:
+        include:
+          # Windows-2022 & VS 2022 supports 11.6+
+          #- os: windows-2022
+         #   cuda: "12.0.0"
+         #   visual_studio: "Visual Studio 17 2022"
+         # - os: windows-2022
+        #    cuda: "11.8.0"
+         #   visual_studio: "Visual Studio 17 2022"
+        #  - os: windows-2022
+        #    cuda: "11.7.0"
+        #    visual_studio: "Visual Studio 17 2022"
+       #   - os: windows-2022
+       #     cuda: "11.6.0"
+      #      visual_studio: "Visual Studio 17 2022"
+          # Windows-2019 & VS 2019 supports 10.1+
+      #    - os: windows-2019
+     #       cuda: "11.5.0"
+     #       visual_studio: "Visual Studio 16 2019"
+     #     - os: windows-2019
+     #       cuda: "11.4.0"
+      #      visual_studio: "Visual Studio 16 2019"
+     #     - os: windows-2019
+     #       cuda: "11.3.0"
+      #      visual_studio: "Visual Studio 16 2019"
+     #     - os: windows-2019
+     #       cuda: "11.2.0"
+     #       visual_studio: "Visual Studio 16 2019"
+     #     - os: windows-2019
+     #       cuda: "11.1.0"
+     #       visual_studio: "Visual Studio 16 2019"
+    #      - os: windows-2019
+    #        cuda: "11.0.1"
+   #         visual_studio: "Visual Studio 16 2019"
+          - os: windows-2019
+            cuda: "10.2.89"
+            visual_studio: "Visual Studio 16 2019"
+   #       - os: windows-2019
+   #         cuda: "10.1.243"
+   #         visual_studio: "Visual Studio 16 2019"
+
+    env:
+      build_dir: "build"
+      config: "Release"
+
+    steps:
+
+
+    - name: Setup Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.7
+
+    - name: get Python path
+      shell: powershell
+      run: (Get-Command python).Source
+
+
+    - name: Install Visual Studio
+      run: |
+        choco install visualstudio2019buildtools --package-parameters "--add Microsoft.VisualStudio.Component.VC.Tools.x86.x64"
+        choco install visualstudio2019professional --package-parameters "--passive --locale en-US --add Microsoft.VisualStudio.Component.VC.CLI.Support --add Microsoft.VisualStudio.Component.VC.ASM.x86Spectre --add Microsoft.VisualStudio.Component.VC.ASM.x64Spectre --add Microsoft.Component.MSBuild --includeRecommended"
+
+    - name: Install swingwin
+      shell: powershell
+      run: |
+          cd c:\
+          Invoke-WebRequest -Uri "https://versaweb.dl.sourceforge.net/project/swig/swigwin/swigwin-4.2.0/swigwin-4.2.0.zip" -OutFile "swigwin-4.2.0.zip"
+          Expand-Archive -Path "swigwin-4.2.0.zip" -DestinationPath "C:\" -Force
+
+    - name: compile 
+      shell: powershell
+      run: |
+            cd .\tf_pose\pafprocess\
+            "C:\swigwin-4.2.0\swig.exe" python -python -c++ pafprocess.i && python setup.py build_ext --inplace
