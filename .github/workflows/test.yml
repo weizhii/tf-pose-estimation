@@ -80,13 +80,13 @@ jobs:
             dir
           
     - name: env set
-      shell: cmd
+      shell: bash
       run: |
-            for /R %i in (*.md) do @echo %~ni > pyd.txt
-            pyd.txt
-            set /p FILENAME=<pyd.txt
-            echo %FILENAME% 
-            echo "FILENAME" >> $env
+            ls *.md > pyd.txt
+            
+            cat pyd.txt >> $env
+            cat pyd.txt
+            echo "FILENAME=$(cat pyd.txt)" >> $GITHUB_ENV
             echo ${{ env.FILENAME }}.pyd
     
     # dir *.md /s /b > pyd.txt
