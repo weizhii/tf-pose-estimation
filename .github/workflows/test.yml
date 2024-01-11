@@ -79,13 +79,14 @@ jobs:
             cd .\tf_pose\pafprocess\
             dir
           
-            dir *.md /s /b > pyd.txt
             
+            for /R %i in (*.md) do @echo %~ni > pyd.txt
             set /p FILENAME=<pyd.txt
             echo %FILENAME% 
-            echo %FILENAME% >> $env
+            echo "FILENAME" >> $env
             echo ${{ env.FILENAME }}.pyd
-
+    
+    # dir *.md /s /b > pyd.txt
     # for /R %i in (*.md) do @echo %~ni > pyd.txt 
     # echo %FILENAME% >> $GITHUB_ENV
     # 发布编译
