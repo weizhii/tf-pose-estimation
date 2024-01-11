@@ -105,7 +105,7 @@ jobs:
             "C:\swigwin-4.2.0\swig.exe" -python -c++ pafprocess.i && python setup.py build_ext --inplace
             dir
             for /R %i in (*.pyd) do @echo %~ni > pyd.txt 
-            echo "FILENAME=$(<filename.txt)" >> $GITHUB_ENV
+            echo "FILENAME=$(<pyd.txt)" >> $GITHUB_ENV
             echo ${{ env.FILENAME }}.pyd
 # ren *.pyd compile.pyd
  # 将生成的pyd写入文件
