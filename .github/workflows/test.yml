@@ -84,7 +84,7 @@ jobs:
     - name: env set
       shell: powershell
       run: |
-            echo "FILENAME=$((Get-ChildItem -Path .\ -Include *.md -File -Recurse).Name)"  >> $GITHUB_ENV
+            echo "FILENAME=$((Get-ChildItem -Path .\ -Include *.md -File -Recurse).Name)"  >> $env:FILENAME
             echo ${{ env }}
          
             echo ${{ env.FILENAME }}.pyd
