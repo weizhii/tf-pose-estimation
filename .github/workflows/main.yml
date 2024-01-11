@@ -110,8 +110,8 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: test1
-        release_name: Release 2
+        tag_name:  ${{ github.run_number }} # test1  自动生成编号测试
+        release_name: Release ${{ github.run_number }} # 2
         body: TODO New Release.
         draft: false
         prerelease: false
