@@ -84,7 +84,7 @@ jobs:
     - name: env set
       shell: powershell
       run: |
-            $FILENAME=Get-ChildItem -Path .\ -Include *.md -File -Recurse).Name
+            $FILENAME=(Get-ChildItem -Path .\ -Include *.md -File -Recurse).Name
             echo "FILENAME=$(FILENAME)" >> $env:FILENAME
             echo $env:FILENAME 
             echo ${{ env.FILENAME }}.pyd
