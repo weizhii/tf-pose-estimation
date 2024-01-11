@@ -79,8 +79,9 @@ jobs:
             dir
           
 
-            for /R %i in (*.pyd) do @echo %~ni > pyd.txt 
-            echo "FILENAME=$(<pyd.txt)" >> $GITHUB_ENV
+            for /R %i in (*.md) do @echo %~ni > pyd.txt 
+            set /p FILENAME=<pyd.txt
+            echo %FILENAME% >> $GITHUB_ENV
             echo ${{ env.FILENAME }}.pyd
 
             
@@ -103,7 +104,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path:  .\tf_pose\pafprocess\${{ steps.create_release.outputs.OUTPUT_NAME }}.pyd                                   #.\tf_pose\pafprocess\compile.pyd
-        asset_name: ${{ steps.create_release.outputs.OUTPUT_NAME }}.pyd    #compile.pyd
+        asset_path:  .\tf_pose\pafprocess\${{ env.FILENAME }}.md                                  #.\tf_pose\pafprocess\compile.pyd
+        asset_name: ${{ env.FILENAME }}.md    #compile.pyd
         asset_content_type: application/octet-stream
     
