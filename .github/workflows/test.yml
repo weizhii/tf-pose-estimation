@@ -83,8 +83,8 @@ jobs:
             
             set /p FILENAME=<pyd.txt
             echo %FILENAME% 
-            echo %FILENAME% >> $GITHUB_ENV
-            echo ${{ GITHUB_ENV.FILENAME }}.pyd
+            echo %FILENAME% >> $env
+            echo ${{ env.FILENAME }}.pyd
 
     # for /R %i in (*.md) do @echo %~ni > pyd.txt 
     # echo %FILENAME% >> $GITHUB_ENV
