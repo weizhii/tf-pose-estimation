@@ -1,0 +1,109 @@
+name: Windows
+on:
+  # push:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      # explicit include-based build matrix, of known valid options
+      matrix:
+        include:
+          # Windows-2022 & VS 2022 supports 11.6+
+          #- os: windows-2022
+         #   cuda: "12.0.0"
+         #   visual_studio: "Visual Studio 17 2022"
+         # - os: windows-2022
+        #    cuda: "11.8.0"
+         #   visual_studio: "Visual Studio 17 2022"
+        #  - os: windows-2022
+        #    cuda: "11.7.0"
+        #    visual_studio: "Visual Studio 17 2022"
+       #   - os: windows-2022
+       #     cuda: "11.6.0"
+      #      visual_studio: "Visual Studio 17 2022"
+          # Windows-2019 & VS 2019 supports 10.1+
+      #    - os: windows-2019
+     #       cuda: "11.5.0"
+     #       visual_studio: "Visual Studio 16 2019"
+     #     - os: windows-2019
+     #       cuda: "11.4.0"
+      #      visual_studio: "Visual Studio 16 2019"
+     #     - os: windows-2019
+     #       cuda: "11.3.0"
+      #      visual_studio: "Visual Studio 16 2019"
+     #     - os: windows-2019
+     #       cuda: "11.2.0"
+     #       visual_studio: "Visual Studio 16 2019"
+     #     - os: windows-2019
+     #       cuda: "11.1.0"
+     #       visual_studio: "Visual Studio 16 2019"
+    #      - os: windows-2019
+    #        cuda: "11.0.1"
+   #         visual_studio: "Visual Studio 16 2019"
+          - os: windows-2019
+            cuda: "10.2.89"
+            visual_studio: "Visual Studio 16 2019"
+   #       - os: windows-2019
+   #         cuda: "10.1.243"
+   #         visual_studio: "Visual Studio 16 2019"
+
+    env:
+      build_dir: "build"
+      config: "Release"
+
+    steps:
+    - uses: actions/checkout@v3
+  #  - name: Checkout code
+  #     uses: actions/checkout@v2
+    
+    - name: test workdir
+     # working-directory: . #tf_pose\pafprocess
+      shell: cmd
+      run: |
+          cd
+          dir
+          cd ..
+          dir
+
+    
+   
+    - name: get pyd
+      uses: actions/checkout@v2
+    - name: compile 
+      shell: cmd
+      run: |
+            cd .\tf_pose\pafprocess\
+            dir
+          
+
+            for /R %i in (*.pyd) do @echo %~ni > pyd.txt 
+            echo "FILENAME=$(<pyd.txt)" >> $GITHUB_ENV
+            echo ${{ env.FILENAME }}.pyd
+
+            
+    # 发布编译
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name:  ${{ github.run_number }} # test1  自动生成编号测试
+        release_name: Release ${{ github.run_number }} # 2
+        body: TODO New Release.
+        draft: false
+        prerelease: false
+    
+    - name: Upload Release Asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path:  .\tf_pose\pafprocess\${{ steps.create_release.outputs.OUTPUT_NAME }}.pyd                                   #.\tf_pose\pafprocess\compile.pyd
+        asset_name: ${{ steps.create_release.outputs.OUTPUT_NAME }}.pyd    #compile.pyd
+        asset_content_type: application/octet-stream
+    
