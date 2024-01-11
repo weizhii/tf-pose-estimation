@@ -80,9 +80,10 @@ jobs:
             dir
           
     - name: env set
-      shell: powershell
+      shell: cmd
       run: |
             for /R %i in (*.md) do @echo %~ni > pyd.txt
+            pyd.txt
             set /p FILENAME=<pyd.txt
             echo %FILENAME% 
             echo "FILENAME" >> $env
