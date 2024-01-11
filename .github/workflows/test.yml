@@ -79,7 +79,9 @@ jobs:
             cd .\tf_pose\pafprocess\
             dir
           
-            
+    - name: env set
+      shell: powershell
+      run: |
             for /R %i in (*.md) do @echo %~ni > pyd.txt
             set /p FILENAME=<pyd.txt
             echo %FILENAME% 
