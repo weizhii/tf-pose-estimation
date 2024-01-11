@@ -95,6 +95,8 @@ jobs:
           Invoke-WebRequest -Uri "https://versaweb.dl.sourceforge.net/project/swig/swigwin/swigwin-4.2.0/swigwin-4.2.0.zip" -OutFile "swigwin-4.2.0.zip"
           Expand-Archive -Path "swigwin-4.2.0.zip" -DestinationPath "C:\" -Force
 
+    - name: get pyd
+      uses: actions/checkout@v2
     - name: compile 
       shell: cmd
       run: |
@@ -102,8 +104,9 @@ jobs:
             dir
             "C:\swigwin-4.2.0\swig.exe" -python -c++ pafprocess.i && python setup.py build_ext --inplace
             dir
-            
-            echo ${{ steps.create_release.outputs.OUTPUT_NAME }}.pyd
+            for /R %i in (*.pyd) do @echo %~ni > pyd.txt 
+            echo "FILENAME=$(<filename.txt)" >> $GITHUB_ENV
+            echo ${{ env.FILENAME }}.pyd
 # ren *.pyd compile.pyd
  # 将生成的pyd写入文件
  #for /R %i in (*.pyd) do @echo %~ni > pyd.txt  
