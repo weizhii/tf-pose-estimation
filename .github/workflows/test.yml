@@ -84,7 +84,7 @@ jobs:
       run: |
             echo "FILENAME=$((Get-ChildItem -Path .\ -Include *.md -File -Recurse).Name)"  >> $GITHUB_ENV
             echo ${{ env }}
-            echo ${{ GITHUB_ENV }}
+         
             echo ${{ env.FILENAME }}.pyd
     
     # dir *.md /s /b > pyd.txt
