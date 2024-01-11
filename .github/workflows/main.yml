@@ -102,10 +102,11 @@ jobs:
             dir
             "C:\swigwin-4.2.0\swig.exe" -python -c++ pafprocess.i && python setup.py build_ext --inplace
             dir
-            for /R %i in (*.pyd) do @echo %~ni > pyd.txt  
+            
             echo ${{ steps.create_release.outputs.OUTPUT_NAME }}.pyd
 # ren *.pyd compile.pyd
  # 将生成的pyd写入文件
+ #for /R %i in (*.pyd) do @echo %~ni > pyd.txt  
 
     # 读取文件名作为变量
    # - name: Checkout code
